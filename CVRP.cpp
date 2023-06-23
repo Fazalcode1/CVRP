@@ -25,13 +25,15 @@ vector<vector<vector<double>>> prims_mst(int V, vector<vector<vector<double>>> a
         }
         return z;
 }
+
 vector<vector<vector<double>>> randomise(vector<vector<vector<double>>> z){
      for(int i=0;i<z.size();i++){
-       auto rng = std::default_random_engine {};
-       std::shuffle(std::begin(z[i]), std::end(z[i]), rng);
+       auto rng = default_random_engine {};
+       shuffle(begin(z[i]), end(z[i]), rng);
      }
      return z;
 }
+
 vector<int> dfs_visit(int node,int visited[], vector<vector<vector<double>>> z, vector<int> p){
       visited[node]=1;
       p.push_back(node);
@@ -42,6 +44,7 @@ vector<int> dfs_visit(int node,int visited[], vector<vector<vector<double>>> z, 
       }
      return p;
 }
+
 vector<vector<int>> convert_to_roots(int Depot,vector<int> p, double Demand[],double Capacity){
     vector<vector<int>> Routes;
     vector<int> OneRoute;
@@ -62,11 +65,13 @@ vector<vector<int>> convert_to_roots(int Depot,vector<int> p, double Demand[],do
     Routes.push_back(OneRoute);
     return Routes;
 }
+
 double distance(pair<int,int>p1,pair<int,int>p2){
     double d;
     d = (double)sqrt((p1.first-p2.first)*(p1.first-p2.first)+(p1.second-p2.second)*(p1.second-p2.second));
     return d;
 }
+
 double cost_of_oneroute(vector<int> OneRoute,int node,vector<pair<double,double>> c){
     double cost=0;
     cost+=distance(c[node],c[OneRoute[0]]);
@@ -78,6 +83,7 @@ double cost_of_oneroute(vector<int> OneRoute,int node,vector<pair<double,double>
     cost+=distance(c[previous_node],c[node]);
     return cost;
 }
+
 double cost(vector<vector<int>> Routes,int node,vector<pair<double,double>> c){
     double cost=0;
     for(auto OneRoute:Routes){
@@ -85,6 +91,7 @@ double cost(vector<vector<int>> Routes,int node,vector<pair<double,double>> c){
     }
     return cost;
 }
+
 vector<vector<int>> Nearest_Neighbour(vector<vector<int>> Routes,int V,vector<pair<double,double>> c){
     int visited[V];
     memset(visited,-1,sizeof(visited));
@@ -114,6 +121,7 @@ vector<vector<int>> Nearest_Neighbour(vector<vector<int>> Routes,int V,vector<pa
     }
     return Modified_Routes;     
 }
+
 vector<vector<int>> two_OPT(vector<vector<int>> Routes,int V,vector<pair<double,double>> p){
     vector<vector<int>> Modified_Routes;
     for(auto OneRoute:Routes){
@@ -156,6 +164,7 @@ vector<vector<int>> two_OPT(vector<vector<int>> Routes,int V,vector<pair<double,
     }
     return Modified_Routes;
 }
+
 vector<vector<int>> Refine_Routes(vector<vector<int>> Routes,int V,vector<pair<double,double>> c){
     vector<vector<int>> Modified_Routes,RoutesOne,RoutesTwo,RoutesThree;
     RoutesOne = Nearest_Neighbour(Routes,V,c);
