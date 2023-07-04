@@ -185,27 +185,28 @@ int main(){
     vector<pair<double,double>> points(V);
     double Demand[V];
     for(int i=0;i<V;i++){
-        double demand,x,y;
-        cin>>demand>>x>>y;
-        Demand[i]=demand;
-        points[i]={x,y};
+        double node,x,y;
+        cin>>node>>x>>y;
+        points[node-1]={x,y};
     }
-    int E;
-    cin>>E;
+    for(int i=0;i<V;i++){
+        int node,demand;
+        Demand[node-1]=demand;
+    }
+    int depot;
+    cin>>depot;
+    depot--;
     vector<vector<vector<double>>> z(V,vector<vector<double>>());
     int i=0;
-    while(i++<E){
-        int u,v;
-        cin>>u>>v;
-        double w = distance(points[u],points[v]);
-        vector<double> t1,t2;
-        t1.push_back(v);
-        t1.push_back(w);
-        z[u].push_back(t1);
-        t2.push_back(u);
-        t2.push_back(w);
-        z[v].push_back(t2);
-    }       
+    for(int i=0;i<V;i++){
+        for(int j=0;j<V;j++){
+            if(j==i)continue;
+            double w = distance(points[i],points[j]);
+            z[i].push_back({(double)j,w});
+            z[j].push_back({(double)i,w});
+        }
+    }
+
     z = prims_mst(V,z);
     
     double minCost = INT_MAX;
@@ -215,22 +216,22 @@ int main(){
         int visited[V];
         memset(visited,-1,sizeof(visited));
         z = randomise(z);
-        permutation = dfs_visit(0,visited,z,permutation);
-        vector<vector<int>> Routes = convert_to_roots(0,permutation,Demand,Capacity);
-        double Cost = cost(Routes,0,points);
+        permutation = dfs_visit(depot,visited,z,permutation);
+        vector<vector<int>> Routes = convert_to_roots(depot,permutation,Demand,Capacity);
+        double Cost = cost(Routes,depot,points);
         if(Cost<minCost){
             minCost = Cost;
             minRoutes = Routes;
         }   
     }
     minRoutes = Refine_Routes(minRoutes,V,points);
-    minCost = cost(minRoutes,0,points);
+    minCost = cost(minRoutes,depot,points);
     cout<<"minimum cost = "<<minCost<<endl;
-    cout<<"minimum cost routes from depot:"<<endl;
-    for(auto x:minRoutes){
-        for(auto y:x){
-            cout<<y<<" ";
-        }
-        cout<<endl;
-    }
+    // cout<<"minimum cost routes from depot:"<<endl;
+    // for(auto x:minRoutes){
+    //     for(auto y:x){
+    //         cout<<y<<" ";
+    //     }
+    //     cout<<endl;
+    // }
 }
