@@ -189,6 +189,8 @@ vector<vector<int>> Refine_Routes(vector<vector<int>> Routes,int V,vector<pair<d
 int main(){
     int V,Capacity;
     cin>>V>>Capacity;
+    string s1,s2,s3,s4;
+    cin>>s1;
     vector<pair<double,double>> points(V);
     double Demand[V];
     for(int i=0;i<V;i++){
@@ -196,10 +198,13 @@ int main(){
         cin>>node>>x>>y;
         points[node-1]={x,y};
     }
+    cin>>s2;
     for(int i=0;i<V;i++){
         int node,demand;
+        cin>>node>>demand;
         Demand[node-1]=demand;
     }
+    cin>>s3;
     int depot;
     cin>>depot;
     depot--;
@@ -217,7 +222,7 @@ int main(){
     z = prims_mst(V,z);
     double minCost = INT_MAX;
     vector<vector<int>> minRoutes;
-    for(int i=1;i<=pow(10,4);i++){
+    for(int i=1;i<=pow(10,5);i++){
         vector<int> permutation;
         int visited[V];
         memset(visited,-1,sizeof(visited));
@@ -233,12 +238,14 @@ int main(){
     minRoutes = Refine_Routes(minRoutes,V,points);
     minCost = cost(minRoutes,depot,points);
     cout<<"minimum cost = "<<minCost<<endl;
-    cout<<"minimum cost routes from depot:"<<endl;
+    // cout<<"minimum cost routes from depot:"<<endl;
+    // int t=1;
     // for(auto x:minRoutes){
+    //     cout<<"Route "<<t<<": ";
     //     for(auto y:x){
     //         cout<<y<<" ";
-    //         break;
     //     }
     //     cout<<endl;
+    //     t++;
     // }
 }
