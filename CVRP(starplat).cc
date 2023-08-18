@@ -196,8 +196,8 @@ int main(){
     g.parseGraph();
     int V,Capacity;
     cin>>V>>Capacity;
-    string s1,s2,s3,s4;
-    cin>>s1;
+    // string s1,s2,s3,s4;
+    // cin>>s1;
     vector<pair<double,double>> points(V);
     double Demand[V];
     for(int i=0;i<V;i++){
@@ -205,13 +205,13 @@ int main(){
         cin>>node>>x>>y;
         points[node-1]={x,y};
     }
-    cin>>s2;
+    // cin>>s2;
     for(int i=0;i<V;i++){
         int node,demand;
         cin>>node>>demand;
         Demand[node-1]=demand;
     }
-    cin>>s3;
+    // cin>>s3;
     int depot;
     cin>>depot;
     depot--;
