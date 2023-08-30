@@ -1,0 +1,44 @@
+function cvrp_mst(Graph g,propNode<int> pointsx,propNode<int> pointsy,node src){
+	propNode<bool> v;
+	propNode<bool> v_nxt;
+	propEdge<bool> min;
+	
+	g.attachNodeProperty(v = False);
+	g.attachEdgeProperty(min = False);
+	src.v = True;
+	src.v_nxt = True;
+	bool notv = False;
+	fixedPoint until (notv : !v){
+		int k = INF;
+		node z = src;
+		node r = src;
+		for(x in g.nodes().filter(v == True)){
+			for(y in g.neighbors(x).filter(v == False)){
+				edge e = g.get_edge(x,y);
+				double weight = sqrt((pointsx[x]-pointsx[y])*(pointsx[x]-pointsx[y])+(pointsy[x]-pointsy[y])*(pointsy[x]-pointsy[y]));
+				if(weight<k){
+					k = weight;
+					z = y;
+					r=x;
+				}
+			}
+		}
+		if(k==INF){
+		   notv = True;
+		}
+		else{
+		  edge e = g.get_edge(r,z);
+		  e.min = True;
+		  z.v = true;
+		  v = v_nxt;
+		}
+	}
+	for(w in g.nodes()){
+	  for(f in g.neighbors(w)){
+	     edge e = g.get_edge(w,f);
+	     if(e.min==False){
+            g.delEdge(w,f);
+	     }
+	  }
+	}
+}
